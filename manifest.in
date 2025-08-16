@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+include setup.py
+recursive-include neural_splines *.py *.json *.yaml *.yml *.jinja2
+global-exclude __pycache__ *.py[cod] *.so .DS_Store

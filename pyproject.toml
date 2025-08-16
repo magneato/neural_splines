@@ -1,0 +1,188 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neural-splines"
+version = "1.0.0"
+description = "Transform neural networks into interpretable mathematical curves using harmonic decomposition and spline interpolation"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Neural Splines Project", email = "neural-splines@example.com"}
+]
+maintainers = [
+    {name = "Neural Splines Project", email = "neural-splines@example.com"}
+]
+keywords = [
+    "neural-networks", 
+    "splines", 
+    "model-compression", 
+    "interpretable-ai",
+    "harmonic-decomposition",
+    "geometric-ml",
+    "parameter-efficiency"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.4.0",
+    "tqdm>=4.62.0",
+    "safetensors>=0.3.0",
+    "transformers>=4.30.0",
+    "accelerate>=0.20.0",
+    "huggingface-hub>=0.16.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.2.0",
+    "pytest-cov>=2.12.0",
+    "black>=21.6.0",
+    "isort>=5.9.0",
+    "flake8>=3.9.0",
+    "mypy>=0.910",
+    "pre-commit>=2.13.0"
+]
+visualization = [
+    "seaborn>=0.11.0",
+    "plotly>=5.0.0",
+    "ipython>=7.25.0",
+    "jupyter>=1.0.0"
+]
+deepseek = [
+    "tokenizers>=0.13.0",
+    "datasets>=2.0.0"
+]
+full = [
+    "neural-splines[dev,visualization,deepseek]"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/neural-splines"
+Repository = "https://github.com/your-username/neural-splines"
+Documentation = "https://neural-splines.readthedocs.io"
+"Bug Tracker" = "https://github.com/your-username/neural-splines/issues"
+
+[project.scripts]
+neural-splines = "neural_splines.cli:main"
+spline-convert = "neural_splines.convert:cli_main"
+spline-visualize = "neural_splines.visualization:cli_main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["neural_splines*"]
+exclude = ["tests*", "docs*", "examples*"]
+
+[tool.setuptools.package-data]
+neural_splines = [
+    "data/*.json",
+    "configs/*.yaml",
+    "templates/*.jinja2"
+]
+
+# Black code formatting
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+# isort import sorting
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["neural_splines"]
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "gpu: marks tests that require GPU"
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["neural_splines"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__init__.py",
+    "*/cli.py"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+
+# MyPy type checking
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "torch.*",
+    "numpy.*",
+    "scipy.*",
+    "matplotlib.*",
+    "transformers.*",
+    "accelerate.*"
+]
+ignore_missing_imports = true
