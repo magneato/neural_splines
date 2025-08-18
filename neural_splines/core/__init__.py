@@ -9,6 +9,7 @@ from .converter import SplineConverter, ConversionConfig
 from .harmonic import HarmonicDecomposer, HarmonicComponents
 from .manifold import ParameterManifold, ManifoldStructure
 from .interpolation import SplineInterpolator, SplineComponents
+from .validation import GeometricValidator, ValidationResult
 
 __all__ = [
     'SplineConverter',
@@ -19,4 +20,6 @@ __all__ = [
     'ManifoldStructure',
     'SplineInterpolator',
     'SplineComponents',
+    'GeometricValidator',
+    'ValidationResult'
 ]

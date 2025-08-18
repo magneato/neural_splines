@@ -8,8 +8,7 @@ decomposition and spline interpolation.
 
 import torch
 import torch.nn as nn
-import numpy as np
-from typing import Dict, Any, Optional, Tuple, List
+from typing import Dict, Any, Optional
 from pathlib import Path
 import logging
 from dataclasses import dataclass
@@ -17,14 +16,12 @@ from dataclasses import dataclass
 from .harmonic import HarmonicDecomposer
 from .manifold import ParameterManifold
 from .interpolation import SplineInterpolator
-from .validation import GeometricValidator
-from ..utils.tensor_ops import tensor_to_numpy, numpy_to_tensor
-from ..exceptions import ConversionError, ValidationError
+from ..exceptions import ConversionError
 
 logger = logging.getLogger(__name__)
 
 @dataclass
-class ConversionConfig:
+class ConversionConfig: # rls - bad design, mirrors Deployment config.  needs fix
     """Configuration for Neural Splines conversion"""
     compression_ratio: float = 128.9
     spline_order: int = 3  # Bicubic splines
@@ -64,9 +61,9 @@ class SplineConverter:
             optimize_control_points=True
         )
         
-        self.validator = GeometricValidator(
-            threshold=self.config.reconstruction_threshold
-        )
+#        self.validator = GeometricValidator(
+#            threshold=self.config.reconstruction_threshold
+#        )
         
         # Conversion statistics
         self.conversion_stats = {}

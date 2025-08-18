@@ -32,7 +32,7 @@ def read_requirements(filename):
 
 # Core dependencies
 INSTALL_REQUIRES = [
-    "torch>=2.0.0",
+    "torch>=2.1.0",
     "numpy>=1.21.0", 
     "scipy>=1.7.0",
     "matplotlib>=3.4.0",
@@ -40,7 +40,8 @@ INSTALL_REQUIRES = [
     "safetensors>=0.3.0",
     "transformers>=4.30.0",
     "accelerate>=0.20.0",
-    "huggingface-hub>=0.16.0"
+    "huggingface-hub>=0.16.0",
+    "fbgemm-gpu"
 ]
 
 # Optional dependencies
