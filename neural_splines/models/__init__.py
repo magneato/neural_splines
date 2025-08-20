@@ -8,17 +8,31 @@ including DeepSeek, Llama, and other transformer architectures.
 from .base_neural import BaseNeuralModel
 from .deepseek_neural import DeepSeekNeuralModel, DeepSeekNeuralConfig
 
+# Import Llama Neural model if present.  If this import fails due to a
+# missing file (e.g. when running against an older version of
+# neural_splines), we fall back silently.  This allows the module to
+# function without requiring Llama support.
+try:
+    from .llama_neural import LlamaNeuralModel, LlamaNeuralConfig  # type: ignore
+except Exception:
+    LlamaNeuralModel = None  # type: ignore
+    LlamaNeuralConfig = None  # type: ignore
+
 __all__ = [
     'BaseNeuralModel',
     'DeepSeekNeuralModel', 
     'DeepSeekNeuralConfig'
+    , 'LlamaNeuralModel', 'LlamaNeuralConfig'
 ]
 
 # Model registry for easy access
 MODEL_REGISTRY = {
     'deepseek': DeepSeekNeuralModel,
     'deepseek-v3': DeepSeekNeuralModel,
-    'base': BaseNeuralModel
+    'base': BaseNeuralModel,
+    # Register Llama Neural model if available.  If the class could not
+    # be imported, attempting to access this key will raise an error.
+    'llama': LlamaNeuralModel
 }
 
 def get_model_class(model_type: str):
